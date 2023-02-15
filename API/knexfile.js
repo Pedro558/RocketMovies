@@ -9,7 +9,7 @@ module.exports = {
     },
     useNullAsDefault: true,
     migrations: {
-      directory: path.resolve(__dirname, "src", "database", "migrations")
+      directory: path.resolve(__dirname, "src" ,"database", "migrations")
     },
     pool: {
       //habilitando o 'on delete cascade'
@@ -17,3 +17,5 @@ module.exports = {
     }
   }
 };
+
+
