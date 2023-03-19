@@ -61,33 +61,32 @@ class NotesController{
   }
   
   async show(req, res) {
-    const values = Object.values(req.body);
-    const errors = [];
-  
-  try{
-      function checkValue(value) {
-      return (typeof value === 'string' && !value.trim());
-    }
-  
-    for (const value of values) {
-      if (checkValue(value)) {
-        errors.push('Algum dos valores está vazio, verifique e tente novamente');
-        break;
+    const { id } = req.params
+    const note = await knex('movieNotes')
+    .where({id})
+    .first()
+
+    const tags = await knex.select('name')
+    .from('movieTags')
+    .where({note_id: id})
+
+    try {
+      if(!note){
+        return res.status(400).json('Nota não encontrada')
       }
+
+     res.json({
+      note,
+      tags
+     })
+
+    } catch (err) {
+      console.error(err)
+      throw new AppError('Erro na exibição do usuário')
     }
-  
-    if (errors.length > 0) {
-      return res.status(400).json({ errors });
-    }
 
-    res.json(values);
-
-  } catch(err){
-    console.error(err)
+    return res.json()
   }
-  
-  }
-
-  }
+}
 
 module.exports = NotesController
