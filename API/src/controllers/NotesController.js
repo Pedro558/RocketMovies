@@ -104,6 +104,57 @@ class NotesController{
       res.status(500).json('Erro ao excluir a nota');
     }
   }
+
+  async index(req, res) {
+    const { user_id, title, tags } = req.query;
+  
+    let queryNotes = knex.select(
+      'movieNotes.id',
+      'movieNotes.title',
+      'movieNotes.description',
+      'movieNotes.rating',
+      'movieNotes.user_id'
+    )
+    .from('movieNotes')
+    .where('movieNotes.user_id', user_id);
+    try{
+      if(title && !tags){
+        queryNotes.whereLike('movieNotes.title', `%${title}%`);
+  
+      } else if (!title && tags){
+        const filterTags = tags.split(',').map(tag => tag.trim());
+        queryNotes
+        .innerJoin('movieTags', 'movieNotes.id', 'movieTags.note_id')
+        .whereIn('movieTags.name', filterTags)
+  
+      } else if (title && tags) {
+        const filterTags = tags.split(',').map(tag => tag.trim());
+        queryNotes
+        .innerJoin('movieTags', 'movieNotes.id', 'movieTags.note_id')
+        .whereIn('movieTags.name', filterTags)
+        .whereLike('movieNotes.title', `%${title}%`);
+      }
+      
+    
+      const notes = await queryNotes;
+    
+      const userTags = await knex('movieTags').where({ user_id });
+    
+      const notesWithTags = notes.map((note) => {
+        const noteTags = userTags.filter((tag) => tag.note_id === note.id);
+        return {
+          ...note,
+          tags: noteTags,
+        };
+      });
+    
+      return res.json(notesWithTags);
+    } catch(err){
+      console.error(err)
+    }
+    
+    
+  }
 }
 
 module.exports = NotesController
