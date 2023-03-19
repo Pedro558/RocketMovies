@@ -87,6 +87,23 @@ class NotesController{
 
     return res.json()
   }
+
+  async delete(req, res){
+    const { id } = req.params;
+    const note = await knex('movieNotes').where({ id });
+  
+    if(note.length === 0){
+      return res.status(400).json('Nota não encontrada');
+    }
+  
+    try {
+      await knex('movieNotes').where({ id }).delete();
+      res.json();
+    } catch (error) {
+      console.error(error);
+      res.status(500).json('Erro ao excluir a nota');
+    }
+  }
 }
 
 module.exports = NotesController
