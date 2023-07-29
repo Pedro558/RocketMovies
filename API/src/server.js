@@ -1,12 +1,21 @@
+require('dotenv/config');
+require('express-async-errors')
+
 const express = require('express')
-const app = express()
-app.use(express.json())
-
+const cors = require('cors')
 const routes = require('./routes')
-app.use('/', routes)
-
-
+const uploadConfig = require('./configs/upload')
 const AppError = require('./utils/AppError')
+
+const app = express()
+
+app.use(express.json())
+app.use(cors())
+
+app.use('/', routes)
+app.use('/files', express.static(uploadConfig.UPLOADS_FOLDER))
+
+
 app.use((error, req, res, next) =>{
   if(error instanceof AppError){
     return res.status(error.statusCode).json({
@@ -23,7 +32,8 @@ app.use((error, req, res, next) =>{
   })
 })
 
+const PORT = process.env.PORT || 3333
 
-app.listen(3333, ()=>{
-  console.log('Server is listening on port 3333');
+app.listen(PORT, ()=>{
+  console.log(`Server is listening on port ${PORT}`);
 })
