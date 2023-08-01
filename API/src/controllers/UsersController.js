@@ -1,5 +1,5 @@
 const AppError = require('../utils/AppError')
-const knex = require('../database')
+const knex = require('../database/index')
 const {  hash, compare } = require('bcrypt')
 
 class UsersController {
@@ -40,20 +40,32 @@ class UsersController {
 
   async update(req, res){
     const { name, email, password, old_password } = req.body
-    const { id } = req.params
+    const user_id = req.user.id
 
     try{
-      const [user] = await knex('users').where({id})
+      const [user] = await knex('users').where({id: user_id})
 
       if(!user){
-        res.json('User not found')
+        res.json("Usuário não encontrado")
+      }
+
+      if(user.email && user.email.id !== user.id){
+        throw new AppError("Este email já está em uso")
       }
   
       user.name = name ?? user.name
       user.email = email ?? user.email
+
+      if(name === '' || email === ''){
+        throw new AppError('O usuário/email está vazio')
+      }
   
       if(password && !old_password){
         throw new AppError("Você precisa informar a senha antiga para definir a nova senha")
+      }
+
+      if(!password && old_password){
+        throw new AppError("Você precisa informar a senha nova para definir uma nova senha")
       }
   
       if(password && old_password){
@@ -67,7 +79,7 @@ class UsersController {
       }
   
       await knex('users')
-      .where({id})
+      .where({id: user_id})
       .update({
         name: name,
         email: email,
@@ -82,8 +94,6 @@ class UsersController {
           error: err
         });
     }
-
-    
   }
 }
 
