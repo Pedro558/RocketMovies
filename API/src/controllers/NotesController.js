@@ -106,7 +106,9 @@ class NotesController{
   }
 
   async index(req, res) {
-    const { user_id, title, tags } = req.query;
+    const { title } = req.query;
+
+    const user_id = req.user.id
   
     let queryNotes = knex.select(
       'movieNotes.id',
@@ -117,23 +119,11 @@ class NotesController{
     )
     .from('movieNotes')
     .where('movieNotes.user_id', user_id);
+
     try{
-      if(title && !tags){
+      if(title){
         queryNotes.whereLike('movieNotes.title', `%${title}%`);
-  
-      } else if (!title && tags){
-        const filterTags = tags.split(',').map(tag => tag.trim());
-        queryNotes
-        .innerJoin('movieTags', 'movieNotes.id', 'movieTags.note_id')
-        .whereIn('movieTags.name', filterTags)
-  
-      } else if (title && tags) {
-        const filterTags = tags.split(',').map(tag => tag.trim());
-        queryNotes
-        .innerJoin('movieTags', 'movieNotes.id', 'movieTags.note_id')
-        .whereIn('movieTags.name', filterTags)
-        .whereLike('movieNotes.title', `%${title}%`);
-      }
+      } 
       
     
       const notes = await queryNotes;
