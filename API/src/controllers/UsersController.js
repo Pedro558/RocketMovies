@@ -49,8 +49,14 @@ class UsersController {
         res.json("Usuário não encontrado")
       }
 
-      if(user.email && user.email.id !== user.id){
-        throw new AppError("Este email já está em uso")
+      if (email !== user.email) {
+        const checkEmailExists = await knex('users')
+          .where('email', email)
+          .first();
+      
+        if (checkEmailExists) {
+          throw new AppError('Este email já está em uso');
+        }
       }
   
       user.name = name ?? user.name
@@ -88,11 +94,9 @@ class UsersController {
       })
   
       return res.json()
-    } catch(err){
-      console.error(err)
-        return res.status(500).json({ 
-          error: err
-        });
+    } catch(error){
+      console.error(error)
+      throw new AppError(error.message)
     }
   }
 }
