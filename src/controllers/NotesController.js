@@ -5,24 +5,6 @@ class NotesController{
   async create(req, res){
     const { title, description, rating, tags } = req.body
     const user_id = req.user.id
-    const values = Object.values(req.body)
-    const errors = []
-
-    try{
-      function checkValue(value) {
-        return (typeof value === 'string' && !value.trim());
-      }
-
-      for (const value of values) {
-        if (checkValue(value)) {
-          errors.push('Algum dos valores está vazio, verifique e tente novamente');
-          break;
-        }
-      }
-  
-      if (errors.length > 0) {
-        return res.status(400).json({ errors });
-      }
 
       const noteExists = await knex('movieNotes')
       .select('*')
@@ -54,10 +36,6 @@ class NotesController{
       await knex('movieTags').insert(tagsInsert)
   
       return res.json()
-
-    } catch(err){
-      throw new AppError('Erro na inserção de dados no banco de dados')
-    }
   }
   
   async show(req, res) {
