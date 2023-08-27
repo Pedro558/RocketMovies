@@ -8,6 +8,7 @@ Essa é uma API RESTful desenvolvida em Node.js que permite ao usuário armazena
 - Knex.js (ORM para o banco de dados SQLite)
 - SQLite3 (banco de dados)
 - Bcrypt (criptografia de senha)
+- JWT (autenticação)
 
 ## 🕹 Como utilizar
 Para utilizar essa API, é necessário ter o Node.js instalado na sua máquina.
