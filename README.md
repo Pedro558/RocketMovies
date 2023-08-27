@@ -1,64 +1,65 @@
 # 🚀 RocketMovies API
-Essa é uma API RESTful desenvolvida em Node.js que permite ao usuário armazenar notas sobre filmes que assistiu e adicionar tags para classificar essas notas.
-É possível criar uma conta de usuário, realizar login e logout, adicionar, visualizar, atualizar e excluir notas, além de adicionar e visualizar tags.
+This is a RESTful API built in Node.js that allows the user to store notes about movies they've watched and add tags to categorize those notes.
+You can create a user account, log in and out, add, view, update, and delete notes, and add and view tags.
 
-## 🛠 Tecnologias utilizadas
+## 🛠 Technologies used
 - Node.js
-- Express.js
-- Knex.js (ORM para o banco de dados SQLite)
-- SQLite3 (banco de dados)
-- Bcrypt (criptografia de senha)
+- express.js
+- Knex.js (ORM for SQLite database)
+- SQLite3 (database)
+- Bcrypt (password encryption)
+- JWT (authentication)
 
-## 🕹 Como utilizar
-Para utilizar essa API, é necessário ter o Node.js instalado na sua máquina.
+## 🕹 How to use
+To use this API, you need to have Node.js installed on your machine.
 
-1. Clone o repositório:
+1. Clone the repository:
 ```
 git clone https://github.com/Pedro558/RocketMovies.git
 ```
-2. Acesse a pasta do projeto:
+2. Access the project folder:
 ```
 cd RocketMovies
 ```
-3. Instale as dependências do projeto:
+3. Install project dependencies:
 ```
 npm install
 ```
-4. Execute as migrações para criar as tabelas do banco de dados:
+4. Run the migrations to create the database tables:
 ```
 npx knex migrate:latest
 ```
-5. Inicie o servidor:
+5. Start the server:
 ```
 npm start
 ```
-6. Acesse a API pelo endereço http://localhost:3333.
+6. Access the API at http://localhost:3333.
 
 ## 🌐 Endpoints
 - **/users**
-  - GET /: Retorna todos os usuários cadastrados na aplicação.
-  - POST /: Cadastra um novo usuário na aplicação.
-  - PUT /:id : Atualiza os dados de um usuário existente na aplicação.
+   - GET /: Returns all registered users in the application.
+   - POST /: Registers a new user in the application.
+   - PUT /:id : Updates the data of an existing user in the application.
 
 - **/notes**
-  - GET /: Retorna todas as notas cadastradas na aplicação.
-  - GET /:id : Retorna uma nota específica a partir do seu ID.
-  - POST /:user_id : Cadastra uma nova nota para um usuário específico.
-  - PUT /:id : Atualiza os dados de uma nota existente na aplicação.
-  - DELETE /:id : Exclui uma nota existente na aplicação.
+   - GET /: Returns all notes registered in the application.
+   - GET /:id : Returns a specific note from its ID.
+   - POST /:user_id : Registers a new note for a specific user.
+   - PUT /:id : Updates the data of an existing note in the application.
+   - DELETE /:id : Deletes an existing note in the application.
 
 - **/tags**
-  - GET /:user_id : Retorna todas as tags cadastradas por um usuário específico.
+   - GET /:user_id : Returns all tags registered by a specific user.
   
-## 👨‍🏫 Considerações finais
-Essa é uma aplicação simples que pode ser utilizada como base para projetos maiores e mais complexos. 
-A arquitetura adotada (MVC) permite uma fácil escalabilidade e manutenção do código. 
-Espero que essa aplicação seja útil para você e que possa ajudá-lo a desenvolver seus próprios projetos.
+## 👨‍🏫 Final thoughts
+This is a simple application that can be used as the basis for larger and more complex projects.
+The adopted architecture (MVC) allows easy scalability and code maintenance.
+I hope this application is useful for you and that it can help you to develop your own projects.
 
 ## 🦸‍♂️ Author
 <p>
- <sub><strong>🌟 Pedro Afonso🌟</strong></sub>
+  <sub><strong>🌟 Pedro Afonso🌟</strong></sub>
 </p>
 
->Este projeto foi desenvolvido com ❤️ por **[Pedro Afonso]
+>This project was developed with ❤️ by **[Pedro Afonso]
 (https://github.com/Pedro558)**
