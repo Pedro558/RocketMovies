@@ -1,4 +1,4 @@
-const knex = require('../database/index')
+const knex = require('../database/knex')
 const AppError = require('../utils/AppError')
 const { compare } = require('bcrypt')
 const authConfig = require('../configs/auth')

@@ -1,5 +1,5 @@
 const AppError = require('../utils/AppError')
-const knex = require('../database/index')
+const knex = require('../database/knex')
 const {  hash, compare } = require('bcrypt')
 
 class UsersController {
