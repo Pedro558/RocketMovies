@@ -1,6 +1,8 @@
 require('dotenv/config');
 require('express-async-errors')
 
+const sqliteConnection = require("./database/sqlite");
+
 const express = require('express')
 const cors = require('cors')
 const routes = require('./routes')
@@ -8,6 +10,8 @@ const uploadConfig = require('./configs/upload')
 const AppError = require('./utils/AppError')
 
 const app = express()
+
+sqliteConnection();
 
 app.use(express.json())
 app.use(cors())
