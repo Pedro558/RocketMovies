@@ -1,5 +1,5 @@
 exports.up = knex => knex.schema.createTable('movieNotes', table=>{
-  table.increments('id').primary()
+  table.increments('id')
   table.text('title')
   table.text('description')
   table.integer('rating')
